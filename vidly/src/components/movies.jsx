@@ -1,5 +1,9 @@
 import React from "react";
+import {Link} from "react-router-dom";
+
 import _ from "lodash";
+
+
 
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
@@ -53,6 +57,10 @@ class Movies extends React.Component {
     this.setState({ sortColumn });
   };
 
+  handleNewMoviesClick = () => {
+    console.log("new movie clicked")
+  }
+
   getMovies = () => {
     const { movies, currentPage, pageSize } = this.state;
     const { currentGenre } = this.state;
@@ -99,6 +107,7 @@ class Movies extends React.Component {
             />
           </div>
           <div className="col">
+            <Link className="btn btn-primary" to="/movies/new" > {"New Movie"} </Link>
             <p>{movieCount} movies found</p>
             <div>
               <MoviesTable
