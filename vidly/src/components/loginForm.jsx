@@ -1,16 +1,18 @@
 import React from "react";
 import Joi from "joi-browser";
-import Input from "./commons/input";
+import Form from "./commons/form";
 
-class LoginForm extends React.Component {
+
+class LoginForm extends Form {
+
   state = {
-    account: {
+    data: { 
       username: "",
-      password: "",
+      password: ""
     },
-    error: {
+    error: { 
       username: "",
-      password: "",
+      password: ""
     },
   };
 
@@ -19,57 +21,20 @@ class LoginForm extends React.Component {
     password: Joi.string().min(5).label("Password"),
   });
 
-  handleChange = (e) => {
-    const account = { ...this.state.account };
-    account[e.currentTarget.id] = e.currentTarget.value;
 
-    this.setState({ account });
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
-  handleLogin = (e) => {
-
-    const opts = { abortEarly: false };
-    const { error: JoiError } = this.schema.validate(this.state.account, opts);
-
-    var error = {};
-    if (JoiError) {
-      JoiError.details.forEach((e) => {
-        error[e.path[0]] = e.message;
-      });
-    }
-
-    this.setState({error})
-  };
+  doSubmit = () => {
+    console.log('login request submitted')
+  }
 
   render() {
-    const { account, error } = this.state;
+    const { data: account, error } = this.state;
 
     return (
       <React.Fragment>
         <form onSubmit={this.handleSubmit}>
-          <Input
-            id="username"
-            type="email"
-            label="Username"
-            value={account.username}
-            error={error.username}
-            onChange={this.handleChange}
-          />
-          <Input
-            id="password"
-            type="password"
-            label="Password"
-            value={account.password}
-            error={error.password}
-            onChange={this.handleChange}
-          />
-          <button className="btn btn-primary" onClick={this.handleLogin}>
-            Login
-          </button>
+          {this.getInputJsx("username", "email", "Username", account.username, error.username, this.handleChange)}
+          {this.getInputJsx("password", "password", "Password", account.password, error.password, this.handleChange)}
+          {this.getSubmitButtonJsx("Login")}
         </form>
       </React.Fragment>
     );
