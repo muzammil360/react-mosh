@@ -9,7 +9,7 @@ class Form extends Component {
   };
 
   validate = () => {
-    const opts = { abortEarly: false };
+    const opts = { abortEarly: false};
     const { error } = this.schema.validate(this.state.data, opts);
 
     return error;
@@ -24,9 +24,9 @@ class Form extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
+    
     const joiError = this.validate();
-
+    
     let error = {};
     if (joiError) {
       joiError.details.forEach((e) => {
@@ -61,14 +61,15 @@ class Form extends Component {
     );
   }
 
-  getInputDropdownJsx(id, label, value, error, onChange) {
+  getInputDropdownJsx(id, label, value, options, error, onChange) {
     return (
       <InputDropdown
         id={id}
         label={label}
         value={value}
+        options={options}
         error={error}
-        onChange={onchange}
+        onChange={onChange}
       ></InputDropdown>
     );
   }
